@@ -25,6 +25,20 @@ test ('Client App Login', async ({page})=>
          await page.locator("div li").first().waitFor();  //kind of wait
          const bln = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible(); //locator based on text
          expect(bln).toBeTruthy(); //assertion
+         await page.locator("text=Checkout").click();
+         await page.locator("[placeholder*='Country']").pressSequentially("ind",{delay:100});
+         const dropDown = page.locator(".ta-results");
+         await dropDown.waitFor();         
+         const optionsCount = await dropDown.locator("button").count();
+
+         for(let i=0; i<optionsCount; ++i)
+          {
+               const text = await dropDown.locator("button").nth(i).textContent();
+               if(text === " India"){
+                    await dropDown.locator("button").nth(i).click();
+                    break;
+               }
+         }
 
          await page.pause();
     }); 
